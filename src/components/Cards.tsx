@@ -33,11 +33,13 @@ function Card({ card }: { card: any }) {
   const CARD_HEIGHT = 282
 
   return (
-    <article className="flex flex-col items-center justify-center overflow-hidden">
+    <article
+      className={`flex flex-col items-center justify-center overflow-hidden w-[${CARD_WIDTH}px] h-[${CARD_HEIGHT}px] min-w-[${CARD_WIDTH}px] min-h-[${CARD_HEIGHT}px] pl-1 pt-1 rounded-xl border-white/[.25] border-2 `}
+    >
       <Image
         src={image}
         alt={name}
-        className={`w-${CARD_WIDTH} h-${CARD_HEIGHT} object-contain`}
+        className={`w-[${CARD_WIDTH}px] h-[${CARD_HEIGHT}px] min-w-[${CARD_WIDTH}px] min-h-[${CARD_HEIGHT}px] object-contain rounded-xl`}
         width={CARD_WIDTH}
         height={CARD_HEIGHT}
       />
@@ -88,7 +90,7 @@ export function CardsGallery() {
   console.log(cards)
 
   return (
-    <section className="grid grid-cols-3 gap-4 align-top">
+    <section className="flex flex-wrap gap-4 align-top place-items-start flex-1 w-full grow">
       {cards?.map((card: any) => {
         return <Card card={card} key={card.address} />
       })}
