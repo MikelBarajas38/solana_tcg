@@ -10,7 +10,7 @@ export default function Home() {
       className={`flex min-h-screen flex-col items-center p-24 gap-10 ${cinzel.className}`}
     >
       <h1 className="text-5xl font-normal">Solsticea</h1>
-      <section className="flex gap-8 flex-1 w-full flex-wrap">
+      <section className="flex gap-8 flex-1 w-full flex-wrap justify-center">
         <UserSidebar />
         <CardsGallery />
       </section>

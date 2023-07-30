@@ -34,12 +34,12 @@ function Card({ card }: { card: any }) {
 
   return (
     <article
-      className={`flex flex-col items-center justify-center overflow-hidden w-[${CARD_WIDTH}px] h-[${CARD_HEIGHT}px] min-w-[${CARD_WIDTH}px] min-h-[${CARD_HEIGHT}px] pl-1 pt-1 rounded-xl border-white/[.25] border-2 `}
+      className={`flex flex-col items-center justify-center overflow-hidden pl-1 pt-1 rounded-xl border-white/[.25] border-2 `}
     >
       <Image
         src={image}
         alt={name}
-        className={`w-[${CARD_WIDTH}px] h-[${CARD_HEIGHT}px] min-w-[${CARD_WIDTH}px] min-h-[${CARD_HEIGHT}px] object-contain rounded-xl`}
+        className={`min-w-[94px] min-h-[141px] object-contain rounded-xl`}
         width={CARD_WIDTH}
         height={CARD_HEIGHT}
       />
