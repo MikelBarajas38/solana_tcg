@@ -1,9 +1,50 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { Metaplex } from '@metaplex-foundation/js';
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+import { useEffect, useState } from 'react';
+
+const connection = new Connection(clusterApiUrl('devnet'));
+const mx = Metaplex.make(connection);
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const [address, setAddress] = useState(
+    '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy',
+  );
+
+  const [nftList, setNftList] = useState(null);
+
+  const fetchNFTs = async () => {
+    try {
+      const list = await mx.nfts().findAllByOwner({ owner: new PublicKey('3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy')});
+      console.log(list)
+      setNftList(list);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (!nftList) {
+      return;
+    }
+
+    const execute = async () => {
+      const nfts = await loadData();
+    };
+
+    execute();
+  }, [nftList]);
+
+  const loadData = async () => {
+    const nftsToLoad = nftList
+    const promises = nftsToLoad.map((metadata: any) => mx.nfts().load({ metadata }));
+    return Promise.all(promises);
+  };
+
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -113,6 +154,10 @@ export default function Home() {
           </p>
         </a>
       </div>
+
+      <button onClick={fetchNFTs}>
+              Fetch
+      </button>
     </main>
   )
 }
