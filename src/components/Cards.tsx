@@ -9,8 +9,15 @@ import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js"
 import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
 import { useCards } from "@/hooks/useCards"
+import { toast } from "react-hot-toast"
 
-export function Card({ card, addImage = true }: { card: any; addImage?: boolean }) {
+export function Card({
+  card,
+  addImage = true,
+}: {
+  card: any
+  addImage?: boolean
+}) {
   const { image, name } = card
 
   const CARD_WIDTH = 188
@@ -37,22 +44,24 @@ export function Card({ card, addImage = true }: { card: any; addImage?: boolean 
   )
 }
 
-export function CardsGallery() {
-  const {isLoading, error, cards} = useCards()
-
-  if (isLoading) return <div>Loading NFTs...</div>
+function CardsGallery() {
+  const { isLoading, error, cards } = useCards()
 
   if (error instanceof Error) {
-    return <div>An error has occurred: ${error.message}</div>
+    toast.error(error.message)
   }
-
-  console.log(cards)
 
   const MINIMUM_GENERATED_CARDS = 8
   const placeholderCards = cards ? MINIMUM_GENERATED_CARDS - cards.length : 0
 
+  if (isLoading) {
+    return Array.from({ length: MINIMUM_GENERATED_CARDS }).map((_, index) => {
+      return <Card card={{}} key={index} addImage={false} />
+    })
+  }
+
   return (
-    <section className="flex flex-wrap gap-4 align-top place-items-start flex-1 w-full grow">
+    <>
       {cards?.map((card: any) => {
         return <Card card={card} key={card.address} />
       })}
@@ -60,6 +69,14 @@ export function CardsGallery() {
         Array.from({ length: placeholderCards }).map((_, index) => {
           return <Card card={{}} key={index} addImage={false} />
         })}
+    </>
+  )
+}
+
+export function CardsGallerySection() {
+  return (
+    <section className="flex flex-wrap gap-4 align-top place-items-start flex-1 w-full grow">
+      <CardsGallery />
     </section>
   )
 }
